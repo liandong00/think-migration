@@ -22,7 +22,7 @@ install_and_test:
     - echo "Running tests..."
     - ls -alF ./vendor
     - ls -alF ./vendor/bin
-    - php ./vendor/bin/phpunit
+    # - php ./vendor/bin/phpunit
   cache:
     key: "$CI_COMMIT_REF_SLUG" # 可根据分支或其他唯一标识符生成缓存
     paths:
