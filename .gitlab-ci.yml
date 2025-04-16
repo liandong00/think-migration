@@ -1,0 +1,50 @@
+workflow:
+  rules:
+    - if: '$CI_COMMIT_TAG != null'
+      when: always
+    - when: never
+
+stages:
+  - install_and_test
+  - release
+
+variables:
+  USER_NAME: Ousaa
+  REPOSITORY: https://packagist.org/packages/ousaa/think-migration
+
+install_and_test:
+  image:
+    name: ousaa/php74-build:v1.0.20
+  stage: install_and_test
+  script:
+    - export COMPOSER_CACHE_DIR=./composer_cache  # 设置 Composer 缓存目录
+    - composer install --optimize-autoloader --no-progress
+    - echo "Running tests..."
+    - ls -alF ./vendor
+    - ls -alF ./vendor/bin
+    - php ./vendor/bin/phpunit
+  cache:
+    key: "$CI_COMMIT_REF_SLUG" # 可根据分支或其他唯一标识符生成缓存
+    paths:
+      - vendor/ # PHP Composer 的依赖目录
+      - ./composer_cache # Composer 的缓存目录
+  tags:
+    - docker-build
+
+# 上传包到 Packagist
+publish_package:
+  image:
+    name: ousaa/deploy:v1.0.3
+  stage: release
+  script:
+    - echo "Uploading to Packagist..."
+    - RESPONSE=$(curl -s -X POST -H "Content-Type:application/json" "https://packagist.org/api/update-package?username=$USER_NAME&apiToken=$PACKAGIST_API_TOKEN" -d "{\"repository\":\"$REPOSITORY\"}")
+    - echo $RESPONSE
+    - |
+      if echo "$RESPONSE" | grep -q "\"status\":\"success\""; then
+        echo "Package uploaded successfully.";
+      else
+        echo "Failed to upload package." && exit 1;
+      fi
+  tags:
+    - docker-deploy

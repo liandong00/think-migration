@@ -1,9 +1,9 @@
 {
-    "name": "topthink/think-migration",
+    "name": "ousaa/think-migration",
     "authors": [
         {
-            "name": "yunwuxin",
-            "email": "448901948@qq.com"
+            "name": "liandong",
+            "email": "liandong00@qq.com"
         }
     ],
     "license": "Apache-2.0",
@@ -40,5 +40,9 @@
                 "think\\migration\\Service"
             ]
         }
+    },
+    "dist": {
+        "url": "https://gitlab.seastt.com/api/v4/projects/ousaa%2Fphp-packages%2Fthink-migration/repository/archive.zip?sha=%prettyVersion%",
+        "type": "zip"
     }
 }

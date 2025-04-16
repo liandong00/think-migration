@@ -1,3 +1,6 @@
+原项目地址: https://github.com/top-think/think-migration  
+优化一些功能
+
 # ThinkPHP6 数据库迁移工具
 
 ThinkPHP6 数据库迁移工具集成了 Phinx，提供了简单易用的数据库迁移和数据填充功能，帮助开发者更高效地管理数据库版本。
