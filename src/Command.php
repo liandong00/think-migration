@@ -53,7 +53,7 @@ abstract class Command extends \think\console\Command
 
         if (0 == $config['deploy']) {
             $dbConfig = [
-                'adapter'      => $config['type'],
+                'adapter'      => !empty($config['adapter']) ? $config['adapter'] : $config['type'],
                 'host'         => $config['hostname'],
                 'name'         => $config['database'],
                 'user'         => $config['username'],
@@ -65,7 +65,7 @@ abstract class Command extends \think\console\Command
             ];
         } else {
             $dbConfig = [
-                'adapter'      => explode(',', $config['type'])[0],
+                'adapter'      => !empty($config['adapter']) ? explode(',', $config['adapter'])[0] : explode(',', $config['type'])[0],
                 'host'         => explode(',', $config['hostname'])[0],
                 'name'         => explode(',', $config['database'])[0],
                 'user'         => explode(',', $config['username'])[0],

@@ -50,6 +50,13 @@ class AdapterFactory
         'sqlsrv' => 'Phinx\Db\Adapter\SqlServerAdapter',
     ];
 
+    protected $connectorType = [
+        'mysql' => \think\db\connector\Mysql::class,
+        'pgsql' => \think\db\connector\Pgsql::class,
+        'sqlite' => \think\db\connector\Sqlite::class,
+        'sqlsrv' => \think\db\connector\Sqlsrv::class,
+    ];
+
     /**
      * Class map of adapters wrappers, indexed by name.
      *
@@ -93,6 +100,15 @@ class AdapterFactory
     protected function getClass(string $name)
     {
         if (empty($this->adapters[$name])) {
+            foreach ($this->connectorType as $type => $connector){
+                if(is_subclass_of($name, $connector))
+                {
+                    if(isset($this->adapters[$type]))
+                    {
+                        return $this->adapters[$type];
+                    }
+                }
+            }
             throw new RuntimeException(sprintf(
                 'Adapter "%s" has not been registered',
                 $name
