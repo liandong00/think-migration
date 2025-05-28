@@ -29,7 +29,7 @@ install_and_test:
       - vendor/ # PHP Composer 的依赖目录
       - ./composer_cache # Composer 的缓存目录
   tags:
-    - docker-build
+    - docker-fast
 
 # 上传包到 Packagist
 publish_package:
@@ -47,4 +47,4 @@ publish_package:
         echo "Failed to upload package." && exit 1;
       fi
   tags:
-    - docker-deploy
+    - docker-fast
